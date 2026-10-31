@@ -32,6 +32,8 @@ public class TicTacToe extends Application {
     
     // Game state variables
     private boolean gameOver = false;
+    private final TurnState turnState = new TurnState();
+    private PauseTransition pendingAiMove;
     private final int AI = -1;
     private final int USER = 1;
     private final HashMap<Integer, String> players = new HashMap<Integer, String>() {{
@@ -90,6 +92,8 @@ public class TicTacToe extends Application {
 
     public void handleEvent() {
         restartButton.setOnAction(actionEvent -> {
+            if (pendingAiMove != null) pendingAiMove.stop();
+            turnState.reset();
             gameOver = false;
             for (Button button : btns) {
                 button.setGraphic(null);
@@ -113,17 +117,22 @@ public class TicTacToe extends Application {
                     alert.setContentText("Game Over! Try to restart the game");
                     alert.show();
                 } else {
+                    if (turnState.isWaitingForAi()) return;
                     if (gameStates[position] == 0) {
+                        if (!turnState.beginTurn()) return;
                         btn.setGraphic(new ImageView(
-                                new Image("file:src/main/resources/assets/circle.png", 100, 100, false, false)
+                                new Image(getClass().getResource("/assets/circle.png").toExternalForm(), 100, 100, false, false)
                         ));
                         gameStates[position] = USER;
                         storeMove(position, USER);
                         checkForWinner();
                         if (!gameOver) {
-                            PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
-                            pause.setOnFinished(e -> makeMoveWithAI());
-                            pause.play();
+                            long generation = turnState.getGeneration();
+                            pendingAiMove = new PauseTransition(Duration.seconds(0.5));
+                            pendingAiMove.setOnFinished(e -> {
+                                if (turnState.completeTurn(generation) && !gameOver) makeMoveWithAI();
+                            });
+                            pendingAiMove.play();
                         }
                     } else {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -204,6 +213,7 @@ public class TicTacToe extends Application {
 
     // Method to make a move for the AI player
     public void makeMoveWithAI() {
+        if (gameOver) return;
         int bestMove = -1; // Initialize the best move index
         int bestScore = Integer.MAX_VALUE; // Initialize the best score to the highest possible value
         int alpha = Integer.MIN_VALUE; // Initialize alpha to the lowest possible value
@@ -229,7 +239,7 @@ public class TicTacToe extends Application {
         // Make the best move found by the AI
         if (bestMove != -1) {
             btns[bestMove].setGraphic(new ImageView(
-                    new Image("file:src/main/resources/assets/cross.png", 100, 100, false, false)
+                    new Image(getClass().getResource("/assets/cross.png").toExternalForm(), 100, 100, false, false)
             ));
             gameStates[bestMove] = AI; // Set the game state for the best move to AI
             storeMove(bestMove, AI); // Store the best move
