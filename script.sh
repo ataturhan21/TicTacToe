@@ -1,8 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-export DISPLAY=:1.0
-cd tictactoe
-echo "Compiling..."
-mvn clean install
-echo "Executing Program..."
-mvn clean javafx:run -Djavafx.verbose=true
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")/tictactoe"
+
+exec mvn clean javafx:run "$@"

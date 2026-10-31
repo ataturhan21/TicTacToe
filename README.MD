@@ -1,71 +1,55 @@
-# Tic Tac Toe JavaFX
+# Tic Tac Toe with JavaFX
 
-Tic Tac Toe JavaFX is a simple implementation of the classic Tic Tac Toe game using JavaFX for the graphical user interface. It allows users to play against an AI opponent.
+A desktop Tic Tac Toe game with a JavaFX interface and an AI opponent.
 
 ![Tic Tac Toe Screenshot](screenshot.png)
 
-## Features
+## Requirements
 
-- Play against an AI opponent.
-- Simple and intuitive graphical user interface.
-- Alerts for game over, winner announcement, and draw.
-- Restart functionality to start a new game.
+- JDK 17, matching the compiler target in [pom.xml](tictactoe/pom.xml).
+- Maven available as `mvn` on your PATH.
+- A graphical desktop session and internet access for the first Maven dependency download.
 
-## Setup
+The project currently pins JavaFX `21-ea+5`. The existing dependency versions are preserved; compatibility with other JavaFX versions is not established here.
 
-To run the Tic Tac Toe JavaFX project locally, follow these steps:
+## Run locally
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/invictus-21/TicTacToe.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd tictactoe
-   ```
-3. Run the script:
-   ```bash
-   script.sh
-   ```
+```bash
+git clone https://github.com/ataturhan21/TicTacToe.git
+cd TicTacToe
+bash script.sh
+```
 
-## Usage
+The launcher finds the nested Maven project relative to its own location and preserves the current display configuration.
 
-- Upon running the application, the Tic Tac Toe game board will be displayed.
-- Click on a cell to make a move. Wait for the AI to make its move.
-- The game will continue until a player wins, the game ends in a draw, or the player decides to restart the game.
-- Use the "Restart" button to start a new game after the current game is over.
+On Windows, or to run Maven directly:
 
-## Static Model
+```text
+cd tictactoe
+mvn clean javafx:run
+```
 
- _________________________         
-|         TicTacToe       |       
-|-------------------------|       
-| - gridPane: GridPane    |       
-| - borderPane: BorderPane|       
-| - title: Label          |        
-| - btns: Button[]        |      
-| - restartButton: Button |        
-| - gameOver: boolean     |
-| - AI: int               |
-| - USER: int             |
-| - players: HashMap      |
-| - gameStates: int[]     |
-| - font: Font            |
-| - rows: List<Integer>   |
-| - cols: List<Integer>   |
-| - diagonal: int         |
-| - antidiagonal: int     |
-| - total_moves: int      |
-|-------------------------|
-| + main(String[]): void  |
-| + start(Stage): void    |
-| + createGUI(): void     |
-| + handleEvent(): void   |
-| + storeMove(int, int): void |
-| + removeMove(int, int): void|
-| + isWinner(int): boolean|
-| + isBoardFull(): boolean|
-| + checkForWinner(): void|
-| + makeMoveWithAI(): void|
-| + minimaxWithAlphaBeta(int, int, int, int): int |
-|_________________________|
+To compile and package without opening a game window, run from the repository root:
+
+```bash
+mvn -f tictactoe/pom.xml clean package
+```
+
+## Play
+
+Click an empty cell to make your move, then wait for the AI. The game announces a winner or a draw. Use **Restart** to clear the board.
+
+## Project guide
+
+| Path | Contents |
+| --- | --- |
+| [TicTacToe.java](tictactoe/src/main/java/com/fx/tictactoejavafx/TicTacToe.java) | Board UI, game state, winner checks, and AI moves |
+| [Resources](tictactoe/src/main/resources/) | Images and JavaFX resources |
+| [pom.xml](tictactoe/pom.xml) | Java, JavaFX, and Maven configuration |
+| [script.sh](script.sh) | Bash launcher |
+
+If Maven reports a Java version error, compare `java -version` with `mvn -version`; Maven may be using a different JDK. If no window opens in a remote session, configure your desktop display before launching.
+
+## License
+
+See [LICENSE](LICENSE).
