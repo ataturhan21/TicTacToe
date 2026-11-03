@@ -42,6 +42,9 @@ public class TicTacToe extends Application {
     }};
     private final int[] gameStates = new int[9];
     private final Font font = Font.font("Arial", FontWeight.BOLD, 40);
+    // Each mark image is decoded once and shared by every ImageView on the board.
+    private final Image userMark = loadMark("/assets/circle.png");
+    private final Image aiMark = loadMark("/assets/cross.png");
     private List<Integer> rows = new ArrayList<Integer>(Arrays.asList(0, 0, 0));
     private List<Integer> cols = new ArrayList<Integer>(Arrays.asList(0, 0, 0));
     private int diagonal = 0;
@@ -119,9 +122,7 @@ public class TicTacToe extends Application {
                     if (turnState.isWaitingForAi()) return;
                     if (gameStates[position] == 0) {
                         if (!turnState.beginTurn()) return;
-                        btn.setGraphic(new ImageView(
-                                new Image(getClass().getResource("/assets/circle.png").toExternalForm(), 100, 100, false, false)
-                        ));
+                        btn.setGraphic(new ImageView(userMark));
                         gameStates[position] = USER;
                         storeMove(position, USER);
                         checkForWinner();
@@ -142,6 +143,10 @@ public class TicTacToe extends Application {
                 }
             });
         }
+    }
+
+    private Image loadMark(String resource) {
+        return new Image(getClass().getResource(resource).toExternalForm(), 100, 100, false, false);
     }
 
     // Records the move made by a player on the game board.
@@ -237,9 +242,7 @@ public class TicTacToe extends Application {
 
         // Make the best move found by the AI
         if (bestMove != -1) {
-            btns[bestMove].setGraphic(new ImageView(
-                    new Image(getClass().getResource("/assets/cross.png").toExternalForm(), 100, 100, false, false)
-            ));
+            btns[bestMove].setGraphic(new ImageView(aiMark));
             gameStates[bestMove] = AI; // Set the game state for the best move to AI
             storeMove(bestMove, AI); // Store the best move
             checkForWinner(); // Check if the AI has won
