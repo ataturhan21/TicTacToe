@@ -19,8 +19,8 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TicTacToe extends Application {
     // UI components
@@ -36,10 +36,7 @@ public class TicTacToe extends Application {
     private PauseTransition pendingAiMove;
     private final int AI = -1;
     private final int USER = 1;
-    private final HashMap<Integer, String> players = new HashMap<Integer, String>() {{
-        put(USER, "O");
-        put(AI, "X");
-    }};
+    private final Map<Integer, String> players = Map.of(USER, "O", AI, "X");
     private final int[] gameStates = new int[9];
     private final Font font = Font.font("Arial", FontWeight.BOLD, 40);
     // Each mark image is decoded once and shared by every ImageView on the board.
