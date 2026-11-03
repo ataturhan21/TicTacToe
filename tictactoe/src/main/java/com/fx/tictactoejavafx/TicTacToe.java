@@ -105,7 +105,6 @@ public class TicTacToe extends Application {
             total_moves = 0;
             Arrays.fill(gameStates, 0);
             restartButton.setDisable(true);
-            System.out.println("Restart button clicked");
         });
         for (Button button : btns) {
             button.setOnAction(actionEvent -> {
