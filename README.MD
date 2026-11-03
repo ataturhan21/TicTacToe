@@ -1,5 +1,7 @@
 # Tic Tac Toe with JavaFX
 
+[![Tic Tac Toe checks](https://github.com/ataturhan21/TicTacToe/actions/workflows/java-tests.yml/badge.svg)](https://github.com/ataturhan21/TicTacToe/actions/workflows/java-tests.yml)
+
 A desktop Tic Tac Toe game with a JavaFX interface and an AI opponent.
 
 ![Tic Tac Toe Screenshot](screenshot.png)
