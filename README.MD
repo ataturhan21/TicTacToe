@@ -65,6 +65,6 @@ Click an empty cell to make your move (you play O), then wait for the AI (X). Th
 
 If Maven reports a Java version error, compare `java -version` with `mvn -version`; Maven may be using a different JDK. If no window opens in a remote session, configure your desktop display before launching.
 
-## License
+## Copyright
 
-See [LICENSE](LICENSE).
+© Ata Turhan. All rights reserved. This repository has no open-source license: its code may not be copied, modified or redistributed.
